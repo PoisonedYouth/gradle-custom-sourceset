@@ -10,6 +10,7 @@ plugins {
     kotlin("jvm") version "1.7.22"
     id("io.ktor.plugin") version "2.2.1"
     id("org.sonarqube") version "3.5.0.2730"
+    jacoco
 }
 
 group = "com.poisonedyouth"
@@ -52,10 +53,27 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+
 sonar {
     properties {
         property("sonar.projectKey", "gradle-custom-sourceset")
         property("sonar.host.url", "http://localhost:9000")
         property("sonar.login", "sqp_63b03d57d145d99683ec1396a4ab423c39aa6fca")
+        property("sonar.junit.reportPaths", "build/test-results/**/TEST-*.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/**/*.xml")
     }
 }
