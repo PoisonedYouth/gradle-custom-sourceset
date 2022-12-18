@@ -11,6 +11,7 @@ plugins {
     id("io.ktor.plugin") version "2.2.1"
     id("org.sonarqube") version "3.5.0.2730"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
+    id("org.jmailen.kotlinter") version "3.12.0"
     jacoco
 }
 
@@ -76,6 +77,11 @@ tasks.sonar{
     dependsOn(tasks.detekt)
     dependsOn(tasks.test)
 }
+
+tasks.check {
+    dependsOn("installKotlinterPrePushHook")
+}
+
 
 sonar {
     properties {

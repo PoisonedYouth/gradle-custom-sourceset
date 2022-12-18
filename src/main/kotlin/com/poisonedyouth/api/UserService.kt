@@ -29,6 +29,7 @@ object UserService {
         }
     }
 
+    @SuppressWarnings("TooGenericExceptionCaught") // Its intended to catch exceptions in this layer
     fun findBy(name: String?): ApiResult<UserDto, ErrorCode> {
         return try {
             logger.info("Start finding user with name '$name'...")
@@ -56,7 +57,6 @@ object UserService {
             )
         }
     }
-
 }
 
 enum class ErrorCode {

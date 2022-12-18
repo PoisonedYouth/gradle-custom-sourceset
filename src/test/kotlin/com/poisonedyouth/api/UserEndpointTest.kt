@@ -2,12 +2,18 @@ package com.poisonedyouth.api
 
 import com.poisonedyouth.module
 import io.kotest.matchers.shouldBe
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.serialization.jackson.*
-import io.ktor.server.testing.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.accept
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
+import io.ktor.serialization.jackson.jackson
+import io.ktor.server.testing.testApplication
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -41,7 +47,6 @@ class UserEndpointTest {
         val response = client.get("/api/user") {
             parameter("name", "PoisonedYouth")
             accept(ContentType.Application.Json)
-
         }
         response.status shouldBe HttpStatusCode.OK
         response.bodyAsText() shouldBe "{\"id\":1,\"name\":\"PoisonedYouth\",\"age\":12,\"city\":\"Berlin\"}"
@@ -63,7 +68,6 @@ class UserEndpointTest {
         val response = client.get("/api/user") {
             parameter("name", "Not Existing")
             accept(ContentType.Application.Json)
-
         }
         response.status shouldBe HttpStatusCode.BadRequest
         response.bodyAsText() shouldBe "User with name 'Not Existing' does not exist."

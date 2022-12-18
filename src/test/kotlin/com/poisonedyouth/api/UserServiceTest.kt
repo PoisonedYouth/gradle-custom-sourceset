@@ -37,7 +37,6 @@ class UserServiceTest {
             UserRepository.save(any())
         } throws IllegalArgumentException("Failed")
 
-
         // when
         val actual = UserService.add(user)
 
@@ -60,7 +59,6 @@ class UserServiceTest {
             UserRepository.save(any())
         } returns 1
 
-
         // when
         val actual = UserService.add(user)
 
@@ -78,7 +76,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `findBy fails if input is null`(){
+    fun `findBy fails if input is null`() {
         // given
         val name = null
 
@@ -90,7 +88,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `findBy fails if user does not exist`(){
+    fun `findBy fails if user does not exist`() {
         // given
         val name = "not exist"
         mockkObject(UserRepository)
@@ -108,7 +106,7 @@ class UserServiceTest {
     }
 
     @Test
-    fun `findBy returns matching user`(){
+    fun `findBy returns matching user`() {
         // given
         val name = "PoisonedYouth"
         mockkObject(UserRepository)
@@ -127,11 +125,11 @@ class UserServiceTest {
         // then
         actual shouldBe ApiResult.Success(
             UserDto(
-            id = 1,
-            name = name,
-            age = 12,
-            city = "Berlin"
-        )
+                id = 1,
+                name = name,
+                age = 12,
+                city = "Berlin"
+            )
         )
         unmockkObject(UserRepository)
     }

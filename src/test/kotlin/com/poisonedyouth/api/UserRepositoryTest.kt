@@ -31,7 +31,6 @@ class UserRepositoryTest {
         // when
         val actual = UserRepository.save(user)
 
-
         // then
         actual shouldBe 1L
     }

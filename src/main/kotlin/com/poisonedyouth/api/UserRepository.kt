@@ -26,8 +26,10 @@ object UserRepository {
     }
 }
 
+private const val DEFAULT_COLUMN_LENGTH = 255
+
 object UserTable : LongIdTable("user", "user_id") {
-    val name = varchar("name", 255).uniqueIndex()
+    val name = varchar("name", DEFAULT_COLUMN_LENGTH).uniqueIndex()
     val age = integer("age")
-    val city = varchar("city", 255)
+    val city = varchar("city", DEFAULT_COLUMN_LENGTH)
 }
